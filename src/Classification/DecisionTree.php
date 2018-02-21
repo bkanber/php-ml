@@ -430,7 +430,7 @@ class DecisionTree implements Classifier
      * Collects and returns an array of internal nodes that use the given
      * column as a split criterion
      */
-    protected function getSplitNodesByColumn(int $column, DecisionTreeLeaf $node)
+    protected function getSplitNodesByColumn($column, DecisionTreeLeaf $node)
     {
         if ($node->isTerminal) {
             return [];

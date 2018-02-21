@@ -93,7 +93,7 @@ class DecisionTreeLeaf
      * Returns Mean Decrease Impurity (MDI) in the node.
      * For terminal nodes, this value is equal to 0
      */
-    public function getNodeImpurityDecrease(int $parentRecordCount)
+    public function getNodeImpurityDecrease($parentRecordCount)
     {
         if ($this->isTerminal) {
             return 0.0;
