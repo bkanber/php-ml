@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 
 namespace Phpml\Math;
 
@@ -11,7 +10,7 @@ class Comparison
     /**
      * @throws InvalidArgumentException
      */
-    public static function compare($a, $b, string $operator): bool
+    public static function compare($a, $b, $operator)
     {
         switch ($operator) {
             case '>':

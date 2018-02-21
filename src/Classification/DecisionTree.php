@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 
 namespace Phpml\Classification;
 
@@ -14,9 +13,9 @@ class DecisionTree implements Classifier
 {
     use Trainable, Predictable;
 
-    public const CONTINUOUS = 1;
+    const CONTINUOUS = 1;
 
-    public const NOMINAL = 2;
+    const NOMINAL = 2;
 
     /**
      * @var int
@@ -68,12 +67,12 @@ class DecisionTree implements Classifier
      */
     private $columnNames = [];
 
-    public function __construct(int $maxDepth = 10)
+    public function __construct($maxDepth = 10)
     {
         $this->maxDepth = $maxDepth;
     }
 
-    public function train(array $samples, array $targets): void
+    public function train(array $samples, array $targets)
     {
         $this->samples = array_merge($this->samples, $samples);
         $this->targets = array_merge($this->targets, $targets);
@@ -101,7 +100,7 @@ class DecisionTree implements Classifier
         }
     }
 
-    public static function getColumnTypes(array $samples): array
+    public static function getColumnTypes(array $samples)
     {
         $types = [];
         $featureCount = count($samples[0]);
@@ -117,7 +116,7 @@ class DecisionTree implements Classifier
     /**
      * @param mixed $baseValue
      */
-    public function getGiniIndex($baseValue, array $colValues, array $targets): float
+    public function getGiniIndex($baseValue, array $colValues, array $targets)
     {
         $countMatrix = [];
         foreach ($this->labels as $label) {
@@ -157,7 +156,7 @@ class DecisionTree implements Classifier
      *
      * @throws InvalidArgumentException
      */
-    public function setNumFeatures(int $numFeatures)
+    public function setNumFeatures($numFeatures)
     {
         if ($numFeatures < 0) {
             throw new InvalidArgumentException('Selected column count should be greater or equal to zero');
@@ -187,7 +186,7 @@ class DecisionTree implements Classifier
         return $this;
     }
 
-    public function getHtml(): string
+    public function getHtml()
     {
         return $this->tree->getHTML($this->columnNames);
     }
@@ -197,7 +196,7 @@ class DecisionTree implements Classifier
      * each column in the given dataset. The importance values are
      * normalized and their total makes 1.<br/>
      */
-    public function getFeatureImportances(): array
+    public function getFeatureImportances()
     {
         if ($this->featureImportances !== null) {
             return $this->featureImportances;
@@ -229,7 +228,7 @@ class DecisionTree implements Classifier
         return $this->featureImportances;
     }
 
-    protected function getSplitLeaf(array $records, int $depth = 0): DecisionTreeLeaf
+    protected function getSplitLeaf($records, $depth = 0)
     {
         $split = $this->getBestSplit($records);
         $split->level = $depth;
@@ -289,7 +288,7 @@ class DecisionTree implements Classifier
         return $split;
     }
 
-    protected function getBestSplit(array $records): DecisionTreeLeaf
+    protected function getBestSplit(array $records)
     {
         $targets = array_intersect_key($this->targets, array_flip($records));
         $samples = array_intersect_key($this->samples, array_flip($records));
@@ -346,7 +345,7 @@ class DecisionTree implements Classifier
      * If any of above methods were not called beforehand, then all features
      * are returned by default.
      */
-    protected function getSelectedFeatures(): array
+    protected function getSelectedFeatures()
     {
         $allFeatures = range(0, $this->featureCount - 1);
         if ($this->numUsableFeatures === 0 && empty($this->selectedFeatures)) {
@@ -369,7 +368,7 @@ class DecisionTree implements Classifier
         return $selectedFeatures;
     }
 
-    protected function preprocess(array $samples): array
+    protected function preprocess(array $samples)
     {
         // Detect and convert continuous data column values into
         // discrete values by using the median as a threshold value
@@ -395,7 +394,7 @@ class DecisionTree implements Classifier
         return array_map(null, ...$columns);
     }
 
-    protected static function isCategoricalColumn(array $columnValues): bool
+    protected static function isCategoricalColumn(array $columnValues)
     {
         $count = count($columnValues);
 
@@ -422,7 +421,7 @@ class DecisionTree implements Classifier
     /**
      * Used to set predefined features to consider while deciding which column to use for a split
      */
-    protected function setSelectedFeatures(array $selectedFeatures): void
+    protected function setSelectedFeatures(array $selectedFeatures)
     {
         $this->selectedFeatures = $selectedFeatures;
     }
@@ -431,7 +430,7 @@ class DecisionTree implements Classifier
      * Collects and returns an array of internal nodes that use the given
      * column as a split criterion
      */
-    protected function getSplitNodesByColumn(int $column, DecisionTreeLeaf $node): array
+    protected function getSplitNodesByColumn(int $column, DecisionTreeLeaf $node)
     {
         if ($node->isTerminal) {
             return [];

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Phpml\Classification\Ensemble;
 
 use Exception;
@@ -25,7 +23,7 @@ class RandomForest extends Bagging
      * may increase the prediction performance while it will also substantially
      * increase the processing time and the required memory
      */
-    public function __construct(int $numClassifier = 50)
+    public function __construct($numClassifier = 50)
     {
         parent::__construct($numClassifier);
 
@@ -83,7 +81,7 @@ class RandomForest extends Bagging
      * each column in the given dataset. Importance values for a column
      * is the average importance of that column in all trees in the forest
      */
-    public function getFeatureImportances(): array
+    public function getFeatureImportances()
     {
         // Traverse each tree and sum importance of the columns
         $sum = [];
@@ -129,7 +127,7 @@ class RandomForest extends Bagging
      *
      * @return DecisionTree
      */
-    protected function initSingleClassifier(Classifier $classifier): Classifier
+    protected function initSingleClassifier(Classifier $classifier)
     {
         if (is_float($this->featureSubsetRatio)) {
             $featureCount = (int) ($this->featureSubsetRatio * $this->featureCount);

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Phpml\Classification\Ensemble;
 
 use Exception;
@@ -53,19 +51,19 @@ class Bagging implements Classifier
     /**
      * @var array
      */
-    private $targets = [];
+//    private $targets = [];
 
     /**
      * @var array
      */
-    private $samples = [];
+//    private $samples = [];
 
     /**
      * Creates an ensemble classifier with given number of base classifiers
      * Default number of base classifiers is 50.
      * The more number of base classifiers, the better performance but at the cost of procesing time
      */
-    public function __construct(int $numClassifier = 50)
+    public function __construct($numClassifier = 50)
     {
         $this->numClassifier = $numClassifier;
     }
@@ -79,7 +77,7 @@ class Bagging implements Classifier
      *
      * @throws \Exception
      */
-    public function setSubsetRatio(float $ratio)
+    public function setSubsetRatio($ratio)
     {
         if ($ratio < 0.1 || $ratio > 1.0) {
             throw new Exception('Subset ratio should be between 0.1 and 1.0');
@@ -108,7 +106,7 @@ class Bagging implements Classifier
         return $this;
     }
 
-    public function train(array $samples, array $targets): void
+    public function train(array $samples, array $targets)
     {
         $this->samples = array_merge($this->samples, $samples);
         $this->targets = array_merge($this->targets, $targets);
@@ -119,13 +117,13 @@ class Bagging implements Classifier
         $this->classifiers = $this->initClassifiers();
         $index = 0;
         foreach ($this->classifiers as $classifier) {
-            [$samples, $targets] = $this->getRandomSubset($index);
+            list($samples, $targets) = $this->getRandomSubset($index);
             $classifier->train($samples, $targets);
             ++$index;
         }
     }
 
-    protected function getRandomSubset(int $index): array
+    protected function getRandomSubset($index)
     {
         $samples = [];
         $targets = [];
@@ -140,7 +138,7 @@ class Bagging implements Classifier
         return [$samples, $targets];
     }
 
-    protected function initClassifiers(): array
+    protected function initClassifiers()
     {
         $classifiers = [];
         for ($i = 0; $i < $this->numClassifier; ++$i) {
@@ -157,7 +155,7 @@ class Bagging implements Classifier
         return $classifiers;
     }
 
-    protected function initSingleClassifier(Classifier $classifier): Classifier
+    protected function initSingleClassifier(Classifier $classifier)
     {
         return $classifier;
     }

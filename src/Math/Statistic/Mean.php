@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 
 namespace Phpml\Math\Statistic;
 
@@ -11,7 +10,7 @@ class Mean
     /**
      * @throws InvalidArgumentException
      */
-    public static function arithmetic(array $numbers): float
+    public static function arithmetic(array $numbers)
     {
         self::checkArrayLength($numbers);
 
@@ -56,7 +55,7 @@ class Mean
     /**
      * @throws InvalidArgumentException
      */
-    private static function checkArrayLength(array $array): void
+    private static function checkArrayLength(array $array)
     {
         if (empty($array)) {
             throw InvalidArgumentException::arrayCantBeEmpty();

@@ -1,6 +1,5 @@
 <?php
 
-declare(strict_types=1);
 
 namespace Phpml\Classification\DecisionTree;
 
@@ -74,12 +73,12 @@ class DecisionTreeLeaf
     /**
      * HTML representation of the tree without column names
      */
-    public function __toString(): string
+    public function __toString()
     {
         return $this->getHTML();
     }
 
-    public function evaluate(array $record): bool
+    public function evaluate(array $record)
     {
         $recordField = $record[$this->columnIndex];
 
@@ -94,7 +93,7 @@ class DecisionTreeLeaf
      * Returns Mean Decrease Impurity (MDI) in the node.
      * For terminal nodes, this value is equal to 0
      */
-    public function getNodeImpurityDecrease(int $parentRecordCount): float
+    public function getNodeImpurityDecrease(int $parentRecordCount)
     {
         if ($this->isTerminal) {
             return 0.0;
@@ -119,7 +118,7 @@ class DecisionTreeLeaf
     /**
      * Returns HTML representation of the node including children nodes
      */
-    public function getHTML($columnNames = null): string
+    public function getHTML($columnNames = null)
     {
         if ($this->isTerminal) {
             $value = "<b>${this}->classValue</b>";
